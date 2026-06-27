@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, flash, session, url_for
 import sqlite3
+import os
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -9,6 +10,8 @@ app.secret_key = "secret123"
 # ========================
 # DATABASE CONNECTION
 # ========================
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR,"student.db")
 def get_db():
     conn=sqlite3.connect("student.db")
     conn.row_factory = sqlite3.Row
@@ -40,6 +43,8 @@ def create_tables():
     db.commit()
     cursor.close()
     db.close()
+
+create_tables()
 
 @app.route('/')
 def home():
