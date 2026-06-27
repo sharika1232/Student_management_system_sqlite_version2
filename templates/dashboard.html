@@ -1,0 +1,131 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- Welcome Card -->
+    <div class="card shadow-lg border-0 mb-5">
+        <div class="card-body text-center">
+
+            <h2 class="text-primary">
+                👋 Welcome, {{ username }}
+            </h2>
+
+            <p class="text-muted">
+                Student Management System Dashboard
+            </p>
+
+        </div>
+    </div>
+
+    <!-- Menu Cards -->
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card text-center">
+
+                <div class="card-body">
+
+                    <i class="fa-solid fa-user-plus fa-3x text-primary mb-3"></i>
+
+                    <h4>Add Student</h4>
+
+                    <a href="{{ url_for('add_student') }}"
+                       class="btn btn-primary mt-3">
+                        Open
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card text-center">
+
+                <div class="card-body">
+
+                    <i class="fa-solid fa-users fa-3x text-success mb-3"></i>
+
+                    <h4>Students</h4>
+
+                    <a href="{{ url_for('view_students') }}"
+                       class="btn btn-success mt-3">
+                        View
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card text-center">
+
+                <div class="card-body">
+
+                    <i class="fa-solid fa-pen-to-square fa-3x text-warning mb-3"></i>
+
+                    <h4>Update</h4>
+
+                    <a href="{{ url_for('view_students') }}"
+                       class="btn btn-warning mt-3">
+                        Update
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card text-center">
+
+                <div class="card-body">
+
+                    <i class="fa-solid fa-trash fa-3x text-danger mb-3"></i>
+
+                    <h4>Delete</h4>
+
+                    <a href="{{ url_for('view_students') }}"
+                       class="btn btn-danger mt-3">
+                        Delete
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Logout -->
+
+    <div class="text-center mt-5">
+
+        <a href="{{ url_for('logout') }}"
+           class="btn btn-dark btn-lg">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,115 @@
+
+{% extends "base.html" %}
+
+{% block title %}Update Student{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-header bg-warning text-dark text-center">
+                    <h3>✏️ Update Student</h3>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for msg in messages %}
+                                <div class="alert alert-danger alert-dismissible fade show">
+                                    {{ msg }}
+                                    <button class="btn-close"
+                                            data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                👤 Student Name
+                            </label>
+
+                            <input type="text"
+                                   name="name"
+                                   class="form-control"
+                                   value="{{ student.name }}"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                📧 Email Address
+                            </label>
+
+                            <input type="email"
+                                   name="email"
+                                   class="form-control"
+                                   value="{{ student.email }}"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                🎓 Course
+                            </label>
+
+                            <input type="text"
+                                   name="course"
+                                   class="form-control"
+                                   value="{{ student.course }}"
+                                   required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                📱 Mobile Number
+                            </label>
+
+                            <input type="text"
+                                   name="mobile"
+                                   class="form-control"
+                                   value="{{ student.mobile }}"
+                                   required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button class="btn btn-warning btn-lg">
+                                💾 Update Student
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="card-footer text-center bg-white">
+
+                    <a href="{{ url_for('view_students') }}"
+                       class="btn btn-outline-primary">
+
+                        ⬅ Back to Students
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
