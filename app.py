@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash, session, url_for
-import mysql.connector
+import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -10,14 +10,36 @@ app.secret_key = "secret123"
 # DATABASE CONNECTION
 # ========================
 def get_db():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="student_management"
+    conn=sqlite3.connect("student.db")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def create_tables():
+    db = get_db()
+    cursor = db.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS admin(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
     )
+    """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS students(
+        stu_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT,
+        course TEXT,
+        mobile TEXT
+    )
+    """)
 
+    db.commit()
+    cursor.close()
+    db.close()
 
 @app.route('/')
 def home():
@@ -44,14 +66,14 @@ def admin_register():
         try:
             cursor.execute("""
                 INSERT INTO admin (username, email, password)
-                VALUES (%s, %s, %s)
+                VALUES (?,?,?)
             """, (username, email, hashed_password))
 
             db.commit()
             flash("Admin registered successfully!")
             return redirect('/admin-login')
 
-        except mysql.connector.IntegrityError as e:
+        except sqlite3.IntegrityError as e:
             print("Database Error:", e)   # Terminal lo actual error chupisthundi
             flash(f"Database Error: {e}")
             return redirect('/admin-register')
@@ -62,7 +84,6 @@ def admin_register():
 
     return render_template("admin_register.html")
 
-
 @app.route('/admin-login', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
@@ -70,17 +91,21 @@ def admin_login():
         password = request.form['password']
 
         db = get_db()
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
 
-        cursor.execute("SELECT * FROM admin WHERE email=%s", (email,))
+        cursor.execute(
+            "SELECT * FROM admin WHERE email=?",
+            (email,)
+        )
+
         admin = cursor.fetchone()
 
         cursor.close()
         db.close()
 
-        if admin and check_password_hash(admin['password'], password):
-            session['admin_id'] = admin['id']
-            session['admin_username'] = admin['username']
+        if admin and check_password_hash(admin["password"], password):
+            session['admin_id'] = admin["id"]
+            session['admin_username'] = admin["username"]
             return redirect('/dashboard')
         else:
             flash("Invalid email or password!")
@@ -89,14 +114,12 @@ def admin_login():
     return render_template("admin_login.html")
 
 
-
 @app.route('/dashboard')
 def dashboard():
     if 'admin_id' not in session:
         return redirect('/admin-login')
 
     return render_template("dashboard.html", username=session['admin_username'])
-
 
 
 @app.route('/add-student', methods=['GET', 'POST'])
@@ -115,7 +138,7 @@ def add_student():
 
         cursor.execute("""
             INSERT INTO students (name, email, course, mobile)
-            VALUES (%s, %s, %s, %s)
+            VALUES (?, ?, ?, ?)
         """, (name, email, course, mobile))
 
         db.commit()
@@ -127,13 +150,14 @@ def add_student():
 
     return render_template("add_student.html")
 
+
 @app.route('/view_students')
 def view_students():
     if 'admin_id' not in session:
         return redirect('/admin-login')
 
     db = get_db()
-    cursor = db.cursor(dictionary=True)
+    cursor = db.cursor()
 
     cursor.execute("SELECT stu_id AS id, name, email, course, mobile FROM students")
     students = cursor.fetchall()
@@ -150,12 +174,14 @@ def view_student(id):
         return redirect('/admin-login')
 
     db = get_db()
-    cursor = db.cursor(dictionary=True)
+    cursor = db.cursor()
 
     cursor.execute("""
-SELECT stu_id AS id, name, email, course, mobile
-FROM students
-""")
+        SELECT stu_id AS id, name, email, course, mobile
+        FROM students
+        WHERE stu_id = ?
+    """, (id,))
+
     student = cursor.fetchone()
 
     cursor.close()
@@ -167,15 +193,20 @@ FROM students
 
     return render_template("view_student.html", student=student)
 
+
 @app.route('/update_student/<int:id>', methods=['GET', 'POST'])
 def update_student(id):
     if 'admin_id' not in session:
         return redirect('/admin-login')
 
     db = get_db()
-    cursor = db.cursor(dictionary=True)
+    cursor = db.cursor()
 
-    cursor.execute("SELECT stu_id AS id, name, email, course, mobile FROM students WHERE stu_id=%s", (id,))
+    cursor.execute(
+        "SELECT stu_id AS id, name, email, course, mobile FROM students WHERE stu_id=?",
+        (id,)
+    )
+
     student = cursor.fetchone()
 
     if not student:
@@ -194,11 +225,11 @@ def update_student(id):
 
         cursor2.execute("""
             UPDATE students
-            SET name=%s,
-                email=%s,
-                course=%s,
-                mobile=%s
-            WHERE stu_id=%s
+            SET name=?,
+                email=?,
+                course=?,
+                mobile=?
+            WHERE stu_id=?
         """, (name, email, course, mobile, id))
 
         db.commit()
@@ -215,7 +246,6 @@ def update_student(id):
 
     return render_template("update_student.html", student=student)
 
-
 @app.route('/delete_student/<int:id>')
 def delete_student(id):
     if 'admin_id' not in session:
@@ -224,7 +254,7 @@ def delete_student(id):
     db = get_db()
     cursor = db.cursor()
 
-    cursor.execute("DELETE FROM students WHERE stu_id=%s", (id,))
+    cursor.execute("DELETE FROM students WHERE stu_id=?", (id,))
 
     db.commit()
     cursor.close()
@@ -233,15 +263,16 @@ def delete_student(id):
     flash("Student deleted successfully!")
     return redirect(url_for('view_students'))
 
+
 @app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
         email = request.form['email']
 
         db = get_db()
-        cursor = db.cursor(dictionary=True)
+        cursor = db.cursor()
 
-        cursor.execute("SELECT * FROM admin WHERE email=%s", (email,))
+        cursor.execute("SELECT * FROM admin WHERE email=?", (email,))
         user = cursor.fetchone()
 
         cursor.close()
@@ -255,7 +286,6 @@ def forgot_password():
             return redirect('/forgot-password')
 
     return render_template("forgot_password.html")
-
 
 
 @app.route('/reset-password', methods=['GET', 'POST'])
@@ -278,8 +308,8 @@ def reset_password():
 
         cursor.execute("""
             UPDATE admin
-            SET password=%s
-            WHERE email=%s
+            SET password=?
+            WHERE email=?
         """, (hashed, session['reset_email']))
 
         db.commit()
@@ -294,13 +324,11 @@ def reset_password():
     return render_template("reset_password.html")
 
 
-
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/admin-login')
 
-
-
 if __name__ == "__main__":
+    create_tables()
     app.run(debug=True)
