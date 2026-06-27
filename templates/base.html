@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,11 +13,11 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <!-- CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='style.css') }}">
+          href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -26,11 +25,12 @@
 
 <!-- Navbar -->
 
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
 
 <div class="container">
 
-<a class="navbar-brand fw-bold" href="/dashboard">
+<a class="navbar-brand fw-bold"
+href="{{ url_for('dashboard') }}">
 
 <i class="fa-solid fa-graduation-cap"></i>
 
@@ -38,21 +38,53 @@ Student Management
 
 </a>
 
-<div>
+<button class="navbar-toggler"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#navbarMenu">
 
-<a href="/dashboard" class="btn btn-light btn-sm me-2">
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse"
+id="navbarMenu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link"
+href="{{ url_for('dashboard') }}">
+<i class="fa-solid fa-house"></i>
 Dashboard
 </a>
+</li>
 
-<a href="/add-student" class="btn btn-success btn-sm me-2">
+<li class="nav-item">
+<a class="nav-link"
+href="{{ url_for('add_student') }}">
+<i class="fa-solid fa-user-plus"></i>
 Add Student
 </a>
+</li>
 
-<a href="{{ url_for('view_students') }}" class="btn btn-warning btn-sm me-2" >Students</a>
+<li class="nav-item">
+<a class="nav-link"
+href="{{ url_for('view_students') }}">
+<i class="fa-solid fa-users"></i>
+Students
+</a>
+</li>
 
-<a href="/logout" class="btn btn-danger btn-sm">
+<li class="nav-item">
+<a class="nav-link text-warning"
+href="{{ url_for('logout') }}">
+<i class="fa-solid fa-right-from-bracket"></i>
 Logout
 </a>
+</li>
+
+</ul>
 
 </div>
 
@@ -60,21 +92,16 @@ Logout
 
 </nav>
 
-<div class="container py-5">
+<div class="container py-4">
 
 {% block content %}
-
 {% endblock %}
 
 </div>
 
-<footer>
-
-<p>
+<footer class="bg-dark text-white text-center py-3 mt-5">
 
 © 2026 Student Management System ❤️
-
-</p>
 
 </footer>
 
