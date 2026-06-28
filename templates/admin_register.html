@@ -1,85 +1,172 @@
-
 {% extends "base.html" %}
 
 {% block title %}Admin Register{% endblock %}
 
 {% block content %}
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height:80vh;">
+<div class="container py-5">
 
-    <div class="card shadow-lg border-0 rounded-4 p-4" style="width:450px;">
+    <div class="row justify-content-center align-items-center">
 
-        <div class="text-center mb-4">
-            <h2 class="text-primary fw-bold">👤 Admin Registration</h2>
-            <p class="text-muted">Create a new admin account</p>
-        </div>
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
 
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for msg in messages %}
-                    <div class="alert alert-danger alert-dismissible fade show">
-                        {{ msg }}
-                        <button class="btn-close" data-bs-dismiss="alert"></button>
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- Heading -->
+
+                    <div class="text-center mb-4">
+
+                        <h2 class="fw-bold text-primary">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Admin Registration
+                        </h2>
+
+                        <p class="text-muted mb-0">
+                            Create a new admin account
+                        </p>
+
                     </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
 
-        <form method="POST">
+                    <!-- Flash Messages -->
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">👤 Username</label>
-                <input type="text"
-                       name="username"
-                       class="form-control"
-                       placeholder="Enter Username"
-                       required>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for msg in messages %}
+
+                    <div class="alert alert-danger alert-dismissible fade show">
+
+                        {{ msg }}
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <!-- Register Form -->
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-user text-primary"></i>
+
+                                Username
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="username"
+                                class="form-control"
+                                placeholder="Enter Username"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-envelope text-primary"></i>
+
+                                Email Address
+
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Enter Email"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-lock text-primary"></i>
+
+                                Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter Password"
+                                required>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-shield-halved text-primary"></i>
+
+                                Confirm Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="confirm_password"
+                                class="form-control"
+                                placeholder="Confirm Password"
+                                required>
+
+                        </div>
+
+                        <div class="d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-lg">
+
+                                <i class="fa-solid fa-user-plus"></i>
+                                Register
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    <hr>
+
+                    <div class="text-center">
+
+                        <p class="mb-0">
+
+                            Already have an account?
+
+                            <a href="{{ url_for('admin_login') }}"
+                               class="fw-bold text-decoration-none">
+
+                                Login Here
+
+                            </a>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
             </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">📧 Email</label>
-                <input type="email"
-                       name="email"
-                       class="form-control"
-                       placeholder="Enter Email"
-                       required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">🔒 Password</label>
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       placeholder="Enter Password"
-                       required>
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label fw-semibold">🔐 Confirm Password</label>
-                <input type="password"
-                       name="confirm_password"
-                       class="form-control"
-                       placeholder="Confirm Password"
-                       required>
-            </div>
-
-            <button class="btn btn-primary w-100 btn-lg">
-                Register
-            </button>
-
-        </form>
-
-        <hr>
-
-        <div class="text-center">
-
-            Already have an account?
-
-            <a href="/admin-login"
-               class="text-decoration-none fw-bold">
-                Login Here
-            </a>
 
         </div>
 
@@ -88,4 +175,3 @@
 </div>
 
 {% endblock %}
-

@@ -1,62 +1,74 @@
-
 {% extends "base.html" %}
 
 {% block title %}Student Details{% endblock %}
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
     <div class="row justify-content-center">
 
-        <div class="col-md-6">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6">
 
             <div class="card shadow-lg border-0 rounded-4">
 
-                <div class="card-header bg-info text-white text-center">
-                    <h3>👨‍🎓 Student Details</h3>
-                </div>
+                <div class="card-body p-4 p-md-5">
 
-                <div class="card-body text-center">
+                    <!-- Heading -->
 
-                    <!-- Profile Icon -->
-                    <i class="fa-solid fa-user-graduate fa-5x text-primary mb-4"></i>
+                    <div class="text-center mb-4">
 
-                    <table class="table table-bordered">
+                        <i class="fa-solid fa-user-graduate fa-5x text-primary mb-3"></i>
 
-                        <tr>
-                            <th width="35%">Student ID</th>
-                            <td>{{ student.id }}</td>
-                        </tr>
+                        <h2 class="fw-bold text-primary">
 
-                        <tr>
-                            <th>Name</th>
-                            <td>{{ student.name }}</td>
-                        </tr>
+                            Student Details
 
-                        <tr>
-                            <th>Email</th>
-                            <td>{{ student.email }}</td>
-                        </tr>
+                        </h2>
 
-                        <tr>
-                            <th>Course</th>
-                            <td>{{ student.course }}</td>
-                        </tr>
+                    </div>
 
-                        <tr>
-                            <th>Mobile</th>
-                            <td>{{ student.mobile }}</td>
-                        </tr>
+                    <div class="table-responsive">
 
-                    </table>
+                        <table class="table table-bordered align-middle mb-0">
 
-                    <div class="mt-4">
+                            <tr>
+                                <th width="35%">Student ID</th>
+                                <td>{{ student.id }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ student.name }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ student.email }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Course</th>
+                                <td>{{ student.course }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Mobile</th>
+                                <td>{{ student.mobile }}</td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                    <div class="text-center mt-4">
 
                         <a href="{{ url_for('view_students') }}"
                            class="btn btn-primary">
 
-                            ⬅ Back to Students
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                            Back to Students
 
                         </a>
 
@@ -73,4 +85,3 @@
 </div>
 
 {% endblock %}
-

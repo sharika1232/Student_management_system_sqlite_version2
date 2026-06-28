@@ -1,105 +1,170 @@
-
 {% extends "base.html" %}
 
 {% block title %}Update Student{% endblock %}
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container py-5">
 
     <div class="row justify-content-center">
 
-        <div class="col-md-7">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6">
 
             <div class="card shadow-lg border-0 rounded-4">
 
-                <div class="card-header bg-warning text-dark text-center">
-                    <h3>✏️ Update Student</h3>
-                </div>
+                <div class="card-body p-4 p-md-5">
 
-                <div class="card-body p-4">
+                    <!-- Heading -->
+
+                    <div class="text-center mb-4">
+
+                        <h2 class="fw-bold text-warning">
+
+                            <i class="fa-solid fa-pen-to-square"></i>
+
+                            Update Student
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Update student information.
+
+                        </p>
+
+                    </div>
 
                     <!-- Flash Messages -->
+
                     {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            {% for msg in messages %}
-                                <div class="alert alert-danger alert-dismissible fade show">
-                                    {{ msg }}
-                                    <button class="btn-close"
-                                            data-bs-dismiss="alert"></button>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
+                    {% if messages %}
+                    {% for msg in messages %}
+
+                    <div class="alert alert-danger alert-dismissible fade show">
+
+                        {{ msg }}
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+
+                    {% endfor %}
+                    {% endif %}
                     {% endwith %}
+
+                    <!-- Form -->
 
                     <form method="POST">
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                👤 Student Name
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-user text-warning"></i>
+
+                                Student Name
+
                             </label>
 
-                            <input type="text"
-                                   name="name"
-                                   class="form-control"
-                                   value="{{ student.name }}"
-                                   required>
+                            <input
+                                type="text"
+                                name="name"
+                                class="form-control"
+                                value="{{ student.name }}"
+                                required>
+
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                📧 Email Address
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-envelope text-warning"></i>
+
+                                Email Address
+
                             </label>
 
-                            <input type="email"
-                                   name="email"
-                                   class="form-control"
-                                   value="{{ student.email }}"
-                                   required>
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                value="{{ student.email }}"
+                                required>
+
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">
-                                🎓 Course
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-graduation-cap text-warning"></i>
+
+                                Course
+
                             </label>
 
-                            <input type="text"
-                                   name="course"
-                                   class="form-control"
-                                   value="{{ student.course }}"
-                                   required>
+                            <input
+                                type="text"
+                                name="course"
+                                class="form-control"
+                                value="{{ student.course }}"
+                                required>
+
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold">
-                                📱 Mobile Number
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-phone text-warning"></i>
+
+                                Mobile Number
+
                             </label>
 
-                            <input type="text"
-                                   name="mobile"
-                                   class="form-control"
-                                   value="{{ student.mobile }}"
-                                   required>
+                            <input
+                                type="text"
+                                name="mobile"
+                                class="form-control"
+                                value="{{ student.mobile }}"
+                                required>
+
                         </div>
 
                         <div class="d-grid">
-                            <button class="btn btn-warning btn-lg">
-                                💾 Update Student
+
+                            <button
+                                type="submit"
+                                class="btn btn-warning btn-lg">
+
+                                <i class="fa-solid fa-floppy-disk"></i>
+
+                                Update Student
+
                             </button>
+
                         </div>
 
                     </form>
 
-                </div>
+                    <hr>
 
-                <div class="card-footer text-center bg-white">
+                    <div class="text-center">
 
-                    <a href="{{ url_for('view_students') }}"
-                       class="btn btn-outline-primary">
+                        <a href="{{ url_for('view_students') }}"
+                           class="text-decoration-none fw-bold">
 
-                        ⬅ Back to Students
+                            <i class="fa-solid fa-arrow-left"></i>
 
-                    </a>
+                            Back to Students
+
+                        </a>
+
+                    </div>
 
                 </div>
 
@@ -112,4 +177,3 @@
 </div>
 
 {% endblock %}
-

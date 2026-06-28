@@ -1,79 +1,143 @@
-
 {% extends "base.html" %}
 
 {% block title %}Admin Login{% endblock %}
 
 {% block content %}
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height:80vh;">
+<div class="container py-5">
 
-    <div class="card shadow-lg p-4 border-0 rounded-4" style="width:420px;">
+    <div class="row justify-content-center align-items-center">
 
-        <div class="text-center mb-4">
-            <h2 class="fw-bold text-primary">🔐 Admin Login</h2>
-            <p class="text-muted">Login to Student Management System</p>
-        </div>
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
 
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for msg in messages %}
-                    <div class="alert alert-danger alert-dismissible fade show">
-                        {{ msg }}
-                        <button type="button" class="btn-close"
-                            data-bs-dismiss="alert"></button>
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- Heading -->
+
+                    <div class="text-center mb-4">
+
+                        <h2 class="fw-bold text-primary">
+                            <i class="fa-solid fa-lock"></i>
+                            Admin Login
+                        </h2>
+
+                        <p class="text-muted mb-0">
+                            Login to Student Management System
+                        </p>
+
                     </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
 
-        <form method="POST">
+                    <!-- Flash Messages -->
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">
-                    📧 Email Address
-                </label>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for msg in messages %}
 
-                <input type="email"
-                       name="email"
-                       class="form-control"
-                       placeholder="Enter Email"
-                       required>
+                    <div class="alert alert-danger alert-dismissible fade show">
+
+                        {{ msg }}
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                        </button>
+
+                    </div>
+
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <!-- Login Form -->
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-envelope text-primary"></i>
+
+                                Email Address
+
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Enter Email"
+                                required>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+
+                                <i class="fa-solid fa-lock text-primary"></i>
+
+                                Password
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter Password"
+                                required>
+
+                        </div>
+
+                        <div class="d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-lg">
+
+                                Login
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    <!-- Links -->
+
+                    <div class="text-center mt-4">
+
+                        <a href="{{ url_for('forgot_password') }}"
+                           class="text-decoration-none">
+
+                            Forgot Password?
+
+                        </a>
+
+                        <hr>
+
+                        <p class="mb-0">
+
+                            New User?
+
+                            <a href="{{ url_for('admin_register') }}"
+                               class="fw-bold text-decoration-none">
+
+                                Register Here
+
+                            </a>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
             </div>
-
-            <div class="mb-4">
-                <label class="form-label fw-semibold">
-                    🔒 Password
-                </label>
-
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       placeholder="Enter Password"
-                       required>
-            </div>
-
-            <button class="btn btn-primary w-100 btn-lg">
-                Login
-            </button>
-
-        </form>
-
-        <div class="text-center mt-4">
-
-            <a href="/forgot-password" class="text-decoration-none">
-                Forgot Password?
-            </a>
-
-            <hr>
-
-            <p>
-                New User?
-                <a href="/admin-register"
-                   class="text-decoration-none fw-bold">
-                    Register Here
-                </a>
-            </p>
 
         </div>
 
@@ -82,4 +146,3 @@
 </div>
 
 {% endblock %}
-
